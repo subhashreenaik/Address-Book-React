@@ -41,14 +41,14 @@ const validateData = () => {
       error.name = "";
   }
 
-  if (!user.address.match('^[a-zA-Z0-9#,&]{4,}$')){
+  if (!user.address.match('^[a-zA-Z0-9#,& ]{4,}$')){
       error.address = "Invalid address";
   }
   else {
       error.address = "";
   }
 
-  if (!user.phonenumber.match('^(91 )[5-9][0-9]{9}$')) {
+  if (!user.phonenumber.match('^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$')) {
       error.phonenumber = "Invalid PHONE NUMBER"
   }
   else {
@@ -64,10 +64,12 @@ const validateData = () => {
 
    setError(error);
  }
-
+ 
 useEffect(() => {
-  validateData();
+  validateData()
+   
 }, [user]);
+ 
 const setData = (obj) => {
   
   setUser({
@@ -105,9 +107,9 @@ const handleSubmit = async (event) => {
   console.log(user) 
  // localStorage.setItem('contact', JSON.stringify(user));
   event.preventDefault();
-//   if (await  validateData()) {
-//     return;
-// }
+  if (await  validateData()) {
+    return;
+}
 let object ={
   name:user.name,
   address:user.address,
@@ -166,7 +168,7 @@ addressservice.addContact(object).then(data =>{
                 <div className="row-content1 row-content-new">
                     <label className="label text" for="City">City</label>
                     <div id="city-state-content">
-                        <select name="city" id="city" value={user.city} onChange={handleInput}>
+                        <select name="city" id="city" value={user.city} onChange={handleInput} required>
                             <option selected  value="Select City">Select City</option>
                             <option value="Bengaluru">Bengaluru</option>
                             <option value="Mandya">Mandya</option>
@@ -186,7 +188,7 @@ addressservice.addContact(object).then(data =>{
                 <div className="row-content1 row-content-new ">
                     <label className="label text" for="state">State</label>
                     <div id="city-state-content">
-                        <select name="state" id="state" className="form-control" value={user.state} onChange={handleInput} >
+                        <select name="state" id="state" className="form-control" value={user.state} onChange={handleInput} required >
                         <option selected  value="Select State">Select State</option>
                         <option value="Andhra Pradesh">Andhra Pradesh</option>
                         <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
