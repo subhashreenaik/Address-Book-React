@@ -34,40 +34,40 @@ let initialError = {
 const [valueerror, setError] = useState(initialError);
 const validateData = () => {
   let error = valueerror;
-  if (!user.fullName.test('^[A-Z]{1}[A-Za-z\\s]{2,}$')) {
-      error.fullName = "Invalid NAME";
+  if (!user.name.match('^[A-Z]{1}[a-zA-Z ]{2,}()[A-Z]{1}[a-zA-Z ]{2,}$')) {
+      error.name = "Invalid name";
   }
   else {
-      error.fullName = "";
+      error.name = "";
   }
 
-  // if (!user.address.match('^[a-zA-Z0-9#,&]{4,}$')){
-  //     error.address = "Invalid ADDRESS";
-  // }
-//   else {
-//       error.address = "";
-//   }
+  if (!user.address.match('^[a-zA-Z0-9#,&]{4,}$')){
+      error.address = "Invalid address";
+  }
+  else {
+      error.address = "";
+  }
 
-//   if (!user.phonenumber.match('^[0-9]{2}\\s{1}[7-9]{1}[0-9]{9}$')) {
-//       error.phonenumber = "Invalid PHONE NUMBER"
-//   }
-//   else {
-//       error.phonenumber = "";
-//   }
+  if (!user.phonenumber.match('^(91 )[5-9][0-9]{9}$')) {
+      error.phonenumber = "Invalid PHONE NUMBER"
+  }
+  else {
+      error.phonenumber = "";
+  }
 
-//   if (!user.zipcode.match('^[0-9]{3}\\s{0,1}[0-9]{3}$')) {
-//       error.zipcode = "Invalid ZIP CODE";
-//   }
-//   else {
-//       error.zipcode = "";
-//   }
+  if (!user.zipcode.match('^[0-9 ]{5,10}$')) {
+      error.zipcode = "Invalid ZIP CODE";
+  }
+  else {
+      error.zipcode = "";
+  }
 
    setError(error);
  }
 
 useEffect(() => {
   validateData();
-}, []);
+}, [user]);
 const setData = (obj) => {
   
   setUser({
@@ -153,14 +153,14 @@ addressservice.addContact(object).then(data =>{
             <div className="row-content row-content-new">
      
                 <label for="name" className="label text"></label>
-                <input type="text" name="name" id="name" class="input" placeholder="Your Full Name" value={user.name} onChange={handleInput}/>
+                <input type="text" name="name" id="name" class="input" placeholder="Your Full Name" value={user.name} onChange={handleInput} required/>
                   <error-output className="texterror">{valueerror.name}</error-output>  
 
             </div> 
             <div className="row-content row-content-new">
                 <label className="label text" for="address"></label>
-                <textarea id="address" className="input" name="address" placeholder="Address"  value={user.address} onChange={handleInput} ></textarea>
-                {/* <error-output className="texterror">{user.error.address}</error-output> */}
+                <textarea id="address" className="input" name="address" placeholder="Address"  value={user.address} onChange={handleInput} required ></textarea>
+                <error-output className="texterror">{valueerror.address}</error-output>
             </div>
             <div className="city-state-zip-container">
                 <div className="row-content1 row-content-new">
@@ -230,14 +230,14 @@ addressservice.addContact(object).then(data =>{
                 </div>
                 <div className="row-content1 row-content-new">
                     <label for="zipcode" className="label text">Zip Code</label>
-                    <input type="zipcode" name="zipcode" id="zipcode" className="input" placeholder="zip code" value={user.zipcode} onChange={handleInput}  />
+                    <input type="zipcode" name="zipcode" id="zipcode" className="input" placeholder="zip code" value={user.zipcode} onChange={handleInput} required  />
                 </div>
-                {/* <error-output className="texterror">{user.error.zipcode}</error-output> */}
+                <error-output className="texterror">{valueerror.zipcode}</error-output>
             </div>
             <div className="row-content row-content-new">
                 <label for="phonenumber" className="label text"></label>
-                <input type="phonenumber" name="phonenumber" id="phonenumber" className="input" placeholder="phone Number" value={user.phonenumber} onChange={handleInput}  />
-                {/* <error-output className="texterror">{user.error.phonenumber}</error-output> */}
+                <input type="phonenumber" name="phonenumber" id="phonenumber" className="input" placeholder="phone Number" value={user.phonenumber} onChange={handleInput} required />
+                <error-output className="texterror">{valueerror.phonenumber}</error-output>
             </div>
             <div className="buttonParent">
             <Link to="/" className="resetButton button cancelButton">Cancel</Link>
